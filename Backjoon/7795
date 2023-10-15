@@ -1,0 +1,42 @@
+import sys
+
+c = int(input())
+
+global mArr
+mArr = []
+
+def check(p):
+    global mArr
+    l = 0
+    r = len(mArr)
+    while(l<=r):
+        mid = int((r+l)/2)
+        
+        if(mArr[mid]<p):
+            l = mid
+        else:
+            r = mid
+        if(r-l==1):
+            return l+1
+    
+            
+            
+            
+    
+    
+
+for _ in range(c):
+    n,m = map(int,sys.stdin.readline().split())
+    nArr = sorted(list(map(int, sys.stdin.readline().split())))
+    mArr = sorted(list(map(int, sys.stdin.readline().split())))
+    res = 0
+    for i in range(n):
+        if(nArr[i]<=mArr[0]):
+            continue
+        elif(nArr[i]>mArr[-1]):
+            res += len(mArr)
+        else:    
+            res+=check(nArr[i])
+    print(res)
+        
+    
