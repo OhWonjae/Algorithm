@@ -1,0 +1,62 @@
+import sys
+
+n,m = map(int,sys.stdin.readline().split())
+
+arr = []
+for _ in range(n):
+    arr.append(int(sys.stdin.readline()))
+
+
+def check(p):
+    #print('p: ',p)
+    pp = 0
+    mm = m
+    for i in range(n):
+        if(pp==0):
+            pp = p
+            mm-=1
+            #print('recharge result: ',i,pp,mm)
+        if(arr[i]<=pp):
+            pp-=arr[i]
+            #print('purchase result: ',i,pp,mm)
+        else:
+            pp=p
+            mm-=1
+            #print('lack start: ',i,pp,mm)
+            initA = arr[i]
+            while(initA>0):
+                if(initA<=pp):
+                    pp-=initA
+                    initA=0
+                    #print("lack finish:",initA, pp,mm)
+                    break
+                else:
+                    initA-=pp
+                    pp=p
+                    mm-=1
+                    #print("lack recharge result:",initA, pp,mm)
+
+        #print('result mm',mm)
+        if(mm<0):
+            #print('mm: ',mm)
+            return False
+    #print('mm: ',mm)
+    return True
+
+left = max(arr)
+right = 1000000004
+res = right+1
+while(left<=right):
+    mid = int((right+left)/2)
+    if(check(mid)):
+        res = min(mid,res)
+        right = mid-1
+    else:
+        left = mid+1
+
+
+print(res)
+#print(check(900))
+
+
+
