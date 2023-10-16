@@ -1,0 +1,31 @@
+import sys
+
+
+alen, blen = map(int, sys.stdin.readline().split())
+
+a = list(map(int,sys.stdin.readline().split()))
+b = list(map(int,sys.stdin.readline().split()))
+
+a = sorted(a)
+b = sorted(b)
+
+def find(p):
+    l = 0
+    r = blen-1
+    while(l<=r):
+        mid = int((l + r)/2)
+        if(b[mid]==p):
+            return True
+        elif(b[mid]>p):
+            r = mid-1
+        else:
+            l = mid+1
+    return False
+
+c = 0
+for i in range(alen):
+    if(find(a[i])):
+        c+=1
+print(alen-c + blen-c)
+    
+    
