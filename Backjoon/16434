@@ -1,0 +1,48 @@
+import sys
+import math
+global atk
+n,atk = map(int, sys.stdin.readline().split())
+
+arr = []
+
+for _ in range(n):
+    arr.append(list(map(int,sys.stdin.readline().split())))
+    
+
+
+def check(p):
+    atkk = atk
+    curH = p
+    isWin = True
+    for i in range(n):
+        if(arr[i][0]==2):
+            curH+=arr[i][2]
+            if(curH>p):
+                curH = p
+            atkk+=arr[i][1]
+        else:
+            monR = math.ceil(arr[i][2]/atkk)
+            myR = math.ceil(curH/arr[i][1])
+            if(myR<monR):
+                isWin = False
+                break
+            else:
+                curH -= arr[i][1]*(monR-1)
+    return isWin
+    
+maxN = 123456 * 1000000*1000000
+
+l = 1
+r = maxN
+    
+res = maxN
+while(l<=r):
+    mid = (l+r)//2
+    if(check(mid)):
+        r = mid-1
+        res = min(res,mid)
+    else:
+        l = mid+1
+
+print(res)
+    
