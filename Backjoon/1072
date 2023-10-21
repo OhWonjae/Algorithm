@@ -1,0 +1,25 @@
+import sys
+def check(p):
+    cur = ((y+p)*100)//(x+p)
+    if(cur!=origin):
+        return True
+    return False
+
+
+l = 1
+r = 1000000000
+
+res = r
+while(l<=r):
+    mid = (l+r)//2
+    if(check(mid)):
+        r = mid-1
+        res = min(mid,res)
+    else:
+        l = mid+1
+if(res ==r):
+    print(-1)
+else:
+    print(res)
+    
+    
