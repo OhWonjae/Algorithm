@@ -1,0 +1,44 @@
+import sys
+
+n,m = map(int,sys.stdin.readline().split())
+
+arr = list(map(int,sys.stdin.readline().split()))
+
+maxT = 60000000000
+
+l = 1
+r = maxT
+def check(p):
+    temp = m
+    for i in range(m):
+        temp+= (p//arr[i])
+    return temp>=n
+    
+res = 0
+while(l<=r):
+    mid = (l+r)//2
+    if(check(mid)):
+        r = mid-1
+        res = mid
+    else:
+        l = mid+1
+
+if(n<=m):
+    print(n)
+else:
+    tmp = m
+    for i in range(m):
+        tmp+=(res-1)//arr[i]
+    
+    for i in range(m):
+        if(res%arr[i]==0):
+            tmp+=1
+        if(tmp==n):
+            print(i+1)
+            break
+
+
+        
+
+    
+    
