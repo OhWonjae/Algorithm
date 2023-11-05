@@ -1,0 +1,23 @@
+import sys
+
+t,w = map(int, sys.stdin.readline().split())
+arr = []
+for _ in range(t):
+    arr.append(int(sys.stdin.readline().strip()))
+
+dp=[[[-1 for z in range(34)] for y in range(2)] for x in range(1004)]
+
+def go(idx,tree,cnt):
+    if(cnt<0):
+        return -1e9
+    if(idx == t):
+        return 0 if cnt == 0 else -1e9
+
+    if(dp[idx][tree][cnt]!=-1):
+        return dp[idx][tree][cnt]
+    
+    return max(go(idx+1,tree^1,cnt-1),go(idx+1,tree,cnt)) + (tree == arr[idx] -1)
+
+print(max(go(0,1,w-1),go(0,0,w)))
+
+    
