@@ -1,0 +1,37 @@
+import sys
+
+n = int(input())
+arr = []
+for _ in range(n):
+    arr.append(list(map(int,sys.stdin.readline().split())))
+
+inf = 999999999999
+
+dp = [[inf for _ in range(1<<(n-1))] for _ in range(n)]
+
+
+def dfs(cur,visited):
+    if(dp[cur][visited]!=inf):
+        return dp[cur][visited]
+    if(visited==(1<<(n-1))-1):
+        if(arr[cur][0]):
+            dp[cur][visited] = arr[cur][0]
+        else:
+            dp[cur][visited] = inf+1
+        return dp[cur][visited]
+    for i in range(1,n):
+        if(arr[cur][i]==0):
+            continue
+        if(visited & (1<<(i-1))):
+            continue
+        dp[cur][visited] = min(dp[cur][visited],arr[cur][i]+dfs(i,visited|1<<(i-1)))
+    if(dp[cur][visited]==inf):
+        dp[cur][visited] = inf+1
+    return dp[cur][visited]
+          
+print(dfs(0,0))
+        
+
+
+
+            
