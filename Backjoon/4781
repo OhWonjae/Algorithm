@@ -1,0 +1,26 @@
+import sys
+
+while(True):
+    n,k = map(float,sys.stdin.readline().split())
+    k=k*100+0.5
+    k = int(k)
+    n = int(n)
+    if(n==0 and k==0.00):
+        break
+    arr = list()
+    dp = [0]*10010
+    for _ in range(int(n)):
+        c,m = map(float,sys.stdin.readline().split())
+        m=m*100+0.5
+        m = int(m)
+        c = int(c)
+        arr.append((c,m))
+    for a in arr:
+        if(a[1]>k):
+            continue
+        for i in range(a[1],k+1):
+            dp[i] = max(dp[i-a[1]]+a[0],dp[i])
+    print(dp[k])
+        
+        
+        
