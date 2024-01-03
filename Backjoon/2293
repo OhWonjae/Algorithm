@@ -1,0 +1,21 @@
+import sys
+n,k = map(int,sys.stdin.readline().split())
+
+arr = list()
+
+for i in range(n):
+    arr.append(int(input()))
+
+dp = [0]*(k+1)
+dp[0] = 1
+for a in arr:
+    if(a>10000):
+        continue
+    for i in range(a,k+1):
+        dp[i] +=dp[i-a]
+
+print(dp[k])
+            
+    
+    
+    
