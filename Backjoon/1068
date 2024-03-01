@@ -1,0 +1,28 @@
+import sys
+n = int(input())
+
+arr = list(map(int,sys.stdin.readline().split()))
+
+dNode = int(input())
+
+# 트리를 어떻게 표현할까? 1. 인접리스트
+# 중요 반례 : 첫번째 이후에 부모가 -1이 나오는 경우 있음. 예외처리 필수!!
+
+tree = [[] for _ in range(n)]
+for i in range(0,n):
+    if(arr[i]>=0):
+        tree[arr[i]].append(i)
+
+def delete(node):
+    for i in tree[node]:
+        if(i>=0):
+            delete(i)
+    tree[node] = -1
+delete(dNode)
+for i in range(n):
+    if(tree[i]!=-1 and dNode in tree[i]):
+        tree[i].remove(dNode)
+def isEmpty(x):
+    return x==[]
+newTree = list(filter(isEmpty,tree))
+print(len(newTree))
