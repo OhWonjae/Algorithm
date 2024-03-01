@@ -1,0 +1,68 @@
+# 파이썬 에서 함수내에 global 선언해야 하는경우는 함수내에서 그변수를 수정할떄임
+# 예외처리 : max값 구할때 0이 아니라 가장 작은 - 수랑 비교하기
+import sys
+
+n = int(input())
+
+arr = sys.stdin.readline().strip()
+
+oper = []
+num = []
+brackets = []
+for s in arr:
+    if(s=='+' or s=='-' or s =='*'):
+        oper.append(s)
+        brackets.append(False)
+    else:
+        num.append(int(s))
+
+
+def calc(l,oper,r):
+    if(oper=='+'):
+        return l+r
+    elif(oper=='-'):
+        return l-r
+    elif(oper=='*'):
+        return l*r
+    
+    
+
+
+def Bracket(brackets):
+    psum=num[0]
+    i=0
+    while(i<len(brackets)):
+        if(i+1<len(brackets) and brackets[i+1]):
+            br = calc(num[i+1],oper[i+1],num[i+2])
+            psum = calc(psum,oper[i],br)
+            i+=2
+        else:
+            psum = calc(psum,oper[i],num[i+1])
+            i+=1
+    return psum
+            
+    
+        
+
+res = -99999999999999999999
+
+def go(idx, prevExist, brackets):
+    global res
+    newBrackets = brackets[:]
+    if(idx==len(newBrackets)):
+        res = max(res,Bracket(newBrackets))
+        return
+
+    if(prevExist):
+        go(idx+1,False,newBrackets)
+    else:
+        go(idx+1,False,newBrackets)
+        newBrackets[idx] = True
+        go(idx+1,True,newBrackets)
+        
+go(0,False,brackets)
+print(res)
+        
+        
+    
+
