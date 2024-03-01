@@ -1,0 +1,41 @@
+# 에외 반례 : 인접리스트 추가할때 .인건 빈값 넣어서 왼쪽 오른쪽 구분시켜주기
+import sys
+
+n = int(input())
+
+adj = [[] for _ in range(n)]
+
+offset = ord('A')
+for _ in range(n):
+    root,l,r = map(str,sys.stdin.readline().split())
+    if(l!='.'):
+        adj[ord(root)-offset].append(ord(l)-offset)
+    else:
+        adj[ord(root)-offset].append('')
+    if(r!='.'):
+        adj[ord(root)-offset].append(ord(r)-offset)
+    else:
+        adj[ord(root)-offset].append('')
+def preOrder(node):
+    print(chr(node+offset),end='')
+    if(adj[node][0]):
+        preOrder(adj[node][0])
+    if(adj[node][1]):
+        preOrder(adj[node][1])
+def middleOrder(node):
+    if(adj[node][0]):
+        middleOrder(adj[node][0])
+    print(chr(node+offset),end='')
+    if(adj[node][1]):
+        middleOrder(adj[node][1])
+def postOrder(node):
+    if(adj[node][0]):
+        postOrder(adj[node][0])
+    if(adj[node][1]):
+        postOrder(adj[node][1])
+    print(chr(node+offset),end='')
+preOrder(0)
+print()
+middleOrder(0)
+print()
+postOrder(0)
