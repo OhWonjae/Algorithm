@@ -1,0 +1,97 @@
+import sys
+
+# 사다리 놓으면 안되는 조건 잘 확인하기
+
+n,m,h = map(int,sys.stdin.readline().split())
+arr = []
+visited = [[0]*(n) for _ in range(h)]
+for _ in range(m):
+    tmp = list(map(int,sys.stdin.readline().split()))
+    visited[tmp[0]-1][tmp[1]-1] = 1
+    arr.append(tmp)
+
+arr2 = []
+for i in range(h):
+    for j in range(n-1):
+        if(visited[i][j]==0):
+            arr2.append((i,j))
+
+# 가로선이 원하는 방향으로 가는지 확인
+def go(_visited,start):
+    y = 0
+    x = start
+    while(y<h):
+        #print(x)
+        if(_visited[y][x]):
+            x+=1
+        elif(x>0 and _visited[y][x-1]):
+            x-=1
+        y+=1
+    return x==start
+            
+    
+    
+    
+    
+    
+def getTmpVisited():
+    tmpVisited = [[0]*(n) for _ in range(h)]
+    for i in range(h):
+        tmpVisited[i] = visited[i][:]
+    return tmpVisited
+        
+        
+res = 4
+def combi(n,r,d,start):
+    global res
+    if(len(d)==r):
+        # 추가되야하는 가로선 조합(index) + 추가될수있는지 확인하기
+        tmpVisited = getTmpVisited()
+        addedCount = r
+        for k in d:
+            leftOk = True
+            rightOk = True
+            if(arr2[k][1]>=1 and tmpVisited[arr2[k][0]][arr2[k][1]-1]==1):
+                leftOk = False
+            if(arr2[k][1]+1<len(tmpVisited[0]) and tmpVisited[arr2[k][0]][arr2[k][1]+1]==1):
+                rightOk = False
+            if(leftOk and rightOk):
+                tmpVisited[arr2[k][0]][arr2[k][1]] = 1
+            else:
+                addedCount-=1
+        
+        isOk = True
+        for i in range(len(tmpVisited[0])):
+            if(go(tmpVisited,i)==False):
+                isOk = False
+                break
+            # else:
+            #     print('ii',i, 'added',arr2[k], 'addedCount',addedCount)
+            #     print(visited)
+            #     print(tmpVisited,i,go(tmpVisited,i))
+        if(isOk):
+            res = min(res,addedCount)
+        return
+    for i in range(start+1,n):
+        d.append(i)
+        combi(n,r,d,i)
+        d.pop()
+        
+tmpVisited = getTmpVisited()        
+isOk = True
+for i in range(len(tmpVisited[0])):
+    if(go(tmpVisited,i)==False):
+        isOk = False
+        break
+if(isOk):
+    res = 0
+combi(len(arr2),1,[],-1)
+combi(len(arr2),2,[],-1)
+combi(len(arr2),3,[],-1)
+if(res==4):
+    print(-1)
+else:
+    print(res)
+
+
+        
