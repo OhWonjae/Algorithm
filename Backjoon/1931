@@ -1,0 +1,27 @@
+# 끝나는시간 순으로 정렬시키기
+# 예외 : (2,2) (1,2) 있을때 (1,2)가 먼저 와야하므로, 끝나는 시간이 같으면 시작시간으로 정렬하기 
+import sys
+n = int(input())
+
+arr = []
+for i in range(n):
+    arr.append(list(map(int, sys.stdin.readline().split())))
+
+
+
+
+sortedArr = sorted(arr,key=lambda x: (x[1],x[0]))
+#print(sortedArr)
+
+resArr = [sortedArr[0]]
+res = 1
+prev = sortedArr[0]
+for i in range(1,len(sortedArr)):
+    cur = sortedArr[i]
+    if(prev[1]<=cur[0]):
+        resArr.append(cur)
+        res+=1
+        prev = cur
+print(res)
+        
+    
