@@ -1,0 +1,29 @@
+import heapq
+import sys
+
+n = int(input().strip())
+
+arr = []
+for i in range(n):
+    d,p = map(int,sys.stdin.readline().split())
+    arr.append((d,p))
+
+arr = sorted(arr,key=lambda x : x[0])
+#print(arr)
+heap = []
+for i in range(n):
+    heapq.heappush(heap,arr[i][1])
+    if(arr[i][0]<len(heap)):
+        heapq.heappop(heap)
+
+res = 0
+for k in heap:
+    res+=k
+print(res)
+
+
+#전형적 그리디 문제
+#데드라인 순으로 정렬 후 우선순위큐에 넣는다.
+#만약 큐에 데이터가 데드라인보다 많다면 가장 작은 데이터 pop
+
+#데드라인 높은 데이터의 크기가 크다면 데드라인 작은 데이터는 필요없어지는 경우가 있으므로 기억해두기 !!
