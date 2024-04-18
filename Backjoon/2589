@@ -1,0 +1,48 @@
+# 보물섬
+# 1. 무식하게 풀수있나? 
+# 보물의 위치를 찾아라 -> 각 육지를 모두 돌면서 시작점과 끝점 사이의 거리가 가장 큰것 
+# how? 최단거리 이므로 bfs로 돌때마다 중첩값 주기
+# 시간 복잡도 
+# 모든 정점 시작점(50 * 50) * 각 정점에서 모든 정점 탐색(50*50) -> 6250000
+
+# 입력 받기
+import sys
+n,m = map(int,sys.stdin.readline().split())
+arr = []
+for _ in range(n):
+    tmp = sys.stdin.readline().strip()
+    arr.append(tmp)
+
+visited = [[0]*m for _ in range(n)]
+dy = [-1,0,1,0]
+dx = [0,1,0,-1]
+
+# 완전 탐색
+def bfs(s):
+    queue = []
+    queue.append(s)
+    visited[s[0]][s[1]] = 1
+    res = 1
+    while(len(queue)!=0):
+        y = queue[0][0]
+        x = queue[0][1]
+        del queue[0]
+        for i in range(4):
+            ny = y+dy[i]
+            nx = x+dx[i]
+            if(ny>=0 and ny<n and nx>=0 and nx<m and visited[ny][nx]==0 and arr[ny][nx]=='L' ):
+                visited[ny][nx] = visited[y][x]+1
+                res = max(res,visited[ny][nx])
+                queue.append((ny,nx))
+    return res
+    
+    
+ans = 0
+# 시작점 구하기
+for i in range(n):
+    for j in range(m):
+        if(arr[i][j]=='L'):
+            visited = [[0]*m for _ in range(n)]
+            res = bfs((i,j))
+            ans = max(ans,res-1)
+print(ans)
