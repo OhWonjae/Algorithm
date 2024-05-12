@@ -1,0 +1,24 @@
+# 순회강연
+
+#how? 1. 날짜별로 정렬 2. 우선순위큐에 담기 3. 날짜와 큐 length비교해서 넘치면 작은 강연료 뺴주기
+
+# 입력
+import sys
+import heapq
+n = int(input().strip())
+
+arr = []
+for _ in range(n):
+    tmp = list(map(int, sys.stdin.readline().split()))
+    arr.append(tmp)
+arr = sorted(arr,key=lambda x: x[1])
+heap = []
+for i in range(n):
+    heapq.heappush(heap,arr[i][0])
+    if(len(heap)>arr[i][1]):
+        heapq.heappop(heap)
+res = 0
+for i in heap:
+    res+=i
+print(res)
+    
