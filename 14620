@@ -1,0 +1,72 @@
+# 꽃길
+# how? 완탐 돌려보기
+# 시간복잡도 - N**6 => 1000000
+
+# 입력 받기
+import sys
+n = int(input().strip())
+
+arr = []
+for _ in range(n):
+    tmp = list(map(int, sys.stdin.readline().split()))
+    arr.append(tmp)
+    
+dy = [-1,0,1,0]
+dx = [0,1,0,-1]
+    
+# 2차원 배열을 1차원 배열로 바꿔주기
+def isOk(d):
+    price = 0
+    visited = [[False]*n for _ in range(n)]
+    for dd in d:
+        y = dd//n
+        x = dd-(y*n)
+        if(visited[y][x]):
+            return 200000;
+        visited[y][x] = True
+        price+=arr[y][x]
+        for i in range(4):
+            ny = y+dy[i]
+            nx = x+dx[i]
+            if(ny>=n or ny<0 or nx>=n or nx<0 or visited[ny][nx]):
+                return 200000;
+            visited[ny][nx] = True
+            price+=arr[ny][nx]
+    return price
+        
+    
+global res
+res = 200000
+    
+#조합 으로 N*N C 3 으로 나온 모든 경우의 수 확인하기
+
+def combi(s,d):
+    if(len(d)==3):
+        p = isOk(d)
+        global res
+        res = min(res,p)
+        return
+    
+    for i in range(s+1,n*n+1):
+        d.append(i-1)
+        combi(i,d)
+        d.pop()
+combi(0,[])
+if(res==200000):
+    print(0)
+else:
+    print(res)
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
