@@ -1,0 +1,30 @@
+# Stack 구조로 () 만들어지면 pop 해주기
+import sys
+
+n = int(input())
+
+
+def getResult(s):
+    stacks = []
+    for ss in s:
+        if(len(stacks)>0):
+            last = stacks[len(stacks)-1]
+            if(last=="(" and ss==")"):
+                stacks.pop()
+                continue
+            else:
+                stacks.append(ss)
+        else:
+            stacks.append(ss)
+    if(len(stacks)==0):
+        print('YES')
+    else:
+        print('NO')
+        
+
+
+
+for i in range(n):
+    tmp = sys.stdin.readline().strip()
+    getResult(tmp)
+    
