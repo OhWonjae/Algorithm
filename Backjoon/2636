@@ -1,0 +1,71 @@
+#치즈 - 녹인부분을 따로 저장하여 가지고 있자
+# 한번 녹인 이후엔 visited와 melting 다시 초기화 시켜주기 
+
+import sys
+from collections import deque
+n,m = map(int,sys.stdin.readline().split())
+
+
+arr = [[]]*n
+visited = [[0]*m for _ in range(n)]
+melting = []
+for i in range(n):
+    tmp = list(map(int, sys.stdin.readline().split()))
+    arr[i] = tmp
+
+
+dy = [-1,0,1,0]
+dx = [0,1,0,-1]
+
+def bfs(s):
+    q = deque()
+    global melting
+    q.append(s)
+    visited[s[0]][s[1]] = 1
+    while(len(q)!=0):
+        y = q[0][0]
+        x = q[0][1]
+        q.popleft()
+        for i in range(4):
+            ny = dy[i]+y
+            nx = dx[i]+x
+            if(ny>=0 and ny<n and nx>=0 and nx<m and arr[ny][nx]==0 and visited[ny][nx]==0):
+                visited[ny][nx] = 1
+                q.append((ny,nx))
+            elif(ny>=0 and ny<n and nx>=0 and nx<m and arr[ny][nx]==1 and visited[ny][nx]==0):
+                if((ny,nx) not in melting):
+                    melting.append((ny,nx))
+
+start = (0,0)
+def isAllVisited():
+    global start
+    for i in range(n):
+        for j in range(m):
+            if(visited[i][j]==0):
+                return False
+    return True
+
+time = 0
+meltcount = 0
+while(True):
+    for i in range(n):
+        for j in range(m):
+            visited[i][j] = 0
+    melting = []
+    bfs(start)
+    if(len(melting)>0):
+        meltcount = len(melting)
+    for melt in melting:
+        arr[melt[0]][melt[1]] = 0
+    if(isAllVisited()):
+        break
+    time+=1
+
+print(time)
+print(meltcount)
+                
+        
+    
+    
+    
+    
