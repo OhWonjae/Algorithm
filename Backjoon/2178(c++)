@@ -1,0 +1,49 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <bits/stdc++.h>
+#include <iostream>
+using namespace std;
+int n,m;
+int a[105][105];
+int visited[105][105];
+vector<pair<int,int>> q;
+int dx[4] = {0,1,0,-1};
+int dy[4] = {-1,0,1,0};
+
+void bfs(pair<int,int> s){
+    visited[s.first][s.second] = 1;
+    q.push_back(s);
+    while(q.size()>0){
+        pair<int,int> ss = q[0];
+        q.erase(q.begin());
+        for(int i=0; i<4; i++){
+            pair<int,int> nd = {ss.first+dy[i],ss.second+dx[i]};
+            if(nd.first>=0 && nd.first <n && nd.second >=0 && nd.second<m && visited[nd.first][nd.second]==0 && a[nd.first][nd.second]==1){
+                q.push_back(nd);
+                visited[nd.first][nd.second] = visited[ss.first][ss.second]+1;
+            }
+        }
+    }
+    cout << visited[n-1][m-1] << endl;
+}
+int main()
+{
+    cin>> n>>m;
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            scanf("%1d", &a[i][j]);
+        }
+    }
+    for(int i=0; i<n; i++){
+        memset(visited[i],0, sizeof(visited[i]));
+    }
+    bfs({0,0});
+
+    return 0;
+}
