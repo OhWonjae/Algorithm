@@ -1,0 +1,83 @@
+// 치즈 문제
+// 빈칸 부터 bfs 돌리면서 만약 visits 되지 않고 치즈라면 걔는 visits 처리해주고 큐에 push하지 말고 끝내기
+// 만약 모든 visits 처리 됬다면 원본 배열에서 1인애들 숫자 세기
+// 그게 아니면 원본배열에도 melt처리 하기 위해 visits 배열을 원본 배열에 덮어 씌우기
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int n,m;
+int arr[105][105];
+int visits[105][105];
+vector<pair<int,int>> q;
+int dy[4] = {-1,0,1,0};
+int dx[4] = {0,1,0,-1};
+int prevC = 0;
+int count(){
+    int c = 0;
+    for(int i=0; i< n; i++){
+        for(int j=0; j<m; j++){
+            if(arr[i][j]==1){
+              c++;  
+            }
+        }
+    }
+    return c;
+}
+
+void pre(pair<int,int>s){
+    q.push_back(s);
+    while(q.size()>0){
+        pair<int,int> ss = q[0];
+        q.erase(q.begin());
+        for(int i=0; i<4; i++){
+            int ny = dy[i]+ ss.first;
+            int nx = dx[i] + ss.second;
+            if(ny>=0 && ny<n && nx>=0 && nx<m && arr[ny][nx]==0 && visits[ny][nx]==0){
+                visits[ny][nx] = 1;
+                q.push_back({ny,nx});
+            }else if(arr[ny][nx]==1 && visits[ny][nx] ==0){
+                arr[ny][nx] = 0;
+                visits[ny][nx] = 1;
+                prevC++;
+            }
+        }
+        
+        
+    }
+}
+int result = 1;
+
+int main(){
+    cin >> n >> m;
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            cin >> arr[i][j];
+        }
+    }
+    for(int i=0; i<n; i++){
+        memset(visits[i],0,sizeof(visits[i]));
+    }
+    
+    
+    
+    while(true){
+        // arr에 melt 반영
+        pre({0,0});
+        if(count()==0){
+            cout << result<<endl;
+            cout << prevC<<endl;
+            return 0;
+        }else{
+            prevC = 0;
+            for(int i=0; i<n; i++){
+                memset(visits[i],0,sizeof(visits[i]));
+            }
+        }
+        result ++;
+    }
+        
+    
+    
+    return 0;
+}
