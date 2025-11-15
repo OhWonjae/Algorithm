@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<string> v;
+vector<int> v2;
+string func(string s){
+    bool nstart = false;
+    string n;
+    for(int i=0; i<s.length(); i++){
+        if(s[i]-48>=0 && s[i]-48<=9){
+            if(nstart==false){
+            // 숫자가 처음 시작할때 - n reset
+            n = "";
+            }
+            
+            n.push_back(s[i]);
+            nstart = true;
+        }else{
+            if(nstart==true){
+                // 숫자가 끝나고 문자 들어갈때
+                v.push_back(n);
+            }
+            nstart = false;
+        }
+        
+        
+    }
+    if(nstart==true){
+        v.push_back(n);
+    }
+    return "";
+}
+void npad(){
+    for(int i=0; i< v.size(); i++){
+        bool zstart = false;
+        if(v[i][0]-'0'==0){
+            zstart = true;
+        }
+        if(zstart==true){
+            int cnt = 0;
+            for(int j=0; j< v[i].length(); j++){
+                if(v[i][j]-'0'==0){
+                    cnt++;
+                }else{
+                    break;
+                }
+            }
+            v[i] = v[i].substr(cnt);
+            if(v[i].length()==0){
+                v[i] = "0";
+            }
+        }
+        
+    }
+}
+
+bool comp(string a, string b){
+    if(a.length()>b.length()){
+        return false;
+    }else if(a.length()<b.length()){
+        return true;
+    }else{
+        return a<b;
+    }
+}
+
+
+int main(){
+    int n=0;
+    cin >> n;
+    for(int i=0; i< n; i++){
+        string a;
+        cin >> a;
+        func(a);
+        
+    }
+    npad();
+    sort(v.begin(), v.end(), comp);
+    for(int i=0; i< v.size(); i++){
+        cout<< v[i]<<endl;
+    }
+    return 0;
+}
